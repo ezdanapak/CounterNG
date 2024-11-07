@@ -1,0 +1,16 @@
+#countdown-timer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  /* For smaller screens */
+  @media (max-width: 768px) {
+    #countdown-timer {
+      font-size: 20px;
+    }
+  }

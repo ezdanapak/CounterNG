@@ -1,13 +1,70 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Countdown Timer</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Website</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #ff758c, #ff7eb3);
+            color: #fff;
+        }
+        .container {
+            text-align: center;
+            padding: 30px;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            max-width: 90%;
+            width: 400px;
+            box-sizing: border-box;
+        }
+        .counter, .countdown {
+            margin: 20px 0;
+        }
+    </style>
 </head>
 <body>
-    <div id="counter">
-        <p>Counter: <span id="counter-value">0</span></p>
-      </div>
-    <script src="script.js"></script>
+    <div class="container">
+        <div class="countdown">
+            <h1>Countdown: <span id="time">0d 0h 0m 0s</span></h1>
+        </div>
+    </div>
+
+    <script>
+        // Counter (hidden)
+        let count = localStorage.getItem('count') ? parseInt(localStorage.getItem('count')) : 0;
+        count++;
+        localStorage.setItem('count', count);
+
+        // Countdown
+        const countdownTime = 144 * 60 * 60 * 1000; // 144 hours in milliseconds
+        const targetTime = localStorage.getItem('targetTime') ? parseInt(localStorage.getItem('targetTime')) : Date.now() + countdownTime;
+
+        function updateCountdown() {
+            const now = Date.now();
+            const distance = targetTime - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('time').textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+            if (distance < 0) {
+                document.getElementById('time').textContent = "EXPIRED";
+            }
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+        localStorage.setItem('targetTime', targetTime);
+    </script>
 </body>
 </html>
